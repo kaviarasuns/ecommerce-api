@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const mongoose = require ("mongoose");
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 const userRoute = require("./routes/users");
@@ -11,11 +11,15 @@ const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 const cors = require("cors");
 
-
-
-mongoose.connect(process.env.MONGO_URL)
-.then(()=> console.log("DB Connection Successful")).catch((err) => {
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("DB Connection Successful"))
+  .catch((err) => {
     console.log(err);
+  });
+
+app.get("/", async (req, res) => {
+  res.send("Server is Up and Running for you");
 });
 
 app.use(cors());
@@ -27,8 +31,6 @@ app.use("/api/cart", cartRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/checkout", stripeRoute);
 
-
-
-app.listen(process.env.PORT || 5000, ()=> {
-    console.log("Backend Server is running at 5000!!");
+app.listen(process.env.PORT || 5000, () => {
+  console.log("Backend Server is running at 5000!!");
 });
